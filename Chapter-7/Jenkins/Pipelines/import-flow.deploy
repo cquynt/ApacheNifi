@@ -5,7 +5,6 @@ pipeline {
       choice(name: 'NIFI_TARGET_ENV', description: 'NiFi Target Enviroment', choices: 'DEV\nSTG\nPRD')
       string(name: 'BUCKET_NAME', description: 'Bucket Name to create: demo')
       string(name: 'FLOW_NAME', description: 'Flow Name(test)')
-      string(name: 'FLOW_VERSION', description: 'Flow Version(1)')
       choice(name: 'FLOW_ENABLE', description: 'Enable Flow ?', choices: 'YES\nNO')
       choice(name: 'FLOW_START', description: 'Start Flow ?', choices: 'YES\nNO')
   }
