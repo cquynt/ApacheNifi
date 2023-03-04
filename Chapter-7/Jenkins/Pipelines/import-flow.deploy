@@ -19,9 +19,15 @@ pipeline {
                     echo \${BUCKET_IDENTIFIER} && 
                     export FLOW_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-flows --bucketIdentifier \${BUCKET_IDENTIFIER} -u http://localhost:18080 | grep -w \${FLOW_NAME} | awk '{print \$3}'` &&
                     echo \${FLOW_IDENTIFIER} &&
-                    /opt/nifi-toolkit/bin/cli.sh session set nifi.props /opt/nifi-toolkit/nifi-envs/nifi-\${NIFI_TARGET_ENV} && 
-                    export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-import --bucketIdentifier \${BUCKET_IDENTIFIER} --flowIdentifier \${FLOW_IDENTIFIER} --flowVersion \${FLOW_VERSION} | tail -n 1`
-                    echo '####### PG Imported with Success\n'
+                    /opt/nifi-toolkit/bin/cli.sh session set nifi.props /opt/nifi-toolkit/nifi-envs/nifi-\${NIFI_TARGET_ENV} &&
+                    
+                    export PG_UPDATED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-list | grep -w aaa | awk '{print \$3}'`
+                    
+                    export PG_UPDATED_ID2=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_UPDATED_ID}
+                    
+                    #export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-import --bucketIdentifier \${BUCKET_IDENTIFIER} --flowIdentifier \${FLOW_IDENTIFIER} --flowVersion \${FLOW_VERSION} | tail -n 1`
+                    #echo '####### PG Imported with Success\n'
+                    
                     if [ \${FLOW_ENABLE} == "YES" ]
                     then
                         echo "Running Enable Services"
