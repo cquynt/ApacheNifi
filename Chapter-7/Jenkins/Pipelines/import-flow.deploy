@@ -21,9 +21,9 @@ pipeline {
                     echo \${FLOW_IDENTIFIER} &&
                     /opt/nifi-toolkit/bin/cli.sh session set nifi.props /opt/nifi-toolkit/nifi-envs/nifi-\${NIFI_TARGET_ENV} &&
                     
-                    export PG_UPDATED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-list | grep -w aaa | awk '{print \$3}'`
+                    export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-list | grep -w aaa | awk '{print \$3}'`
                     
-                    export PG_UPDATED_ID2=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_UPDATED_ID}`
+                    export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_UPDATED_ID}`
                     
                     echo '####### PG Imported with Success\n'
                     
