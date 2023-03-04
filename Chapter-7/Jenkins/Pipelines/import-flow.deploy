@@ -23,7 +23,7 @@ pipeline {
                     
                     export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-list | grep -w aaa | awk '{print \$3}'`
                     
-                    export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_IMPORTED_ID}`
+                    export PG_IMPORTED_ID_2=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_IMPORTED_ID}`
                     
                     echo '####### PG Imported with Success\n'
                     
