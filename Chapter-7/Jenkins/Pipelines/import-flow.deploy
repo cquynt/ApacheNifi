@@ -17,7 +17,7 @@ pipeline {
                     /opt/nifi-toolkit/bin/cli.sh session set nifi.reg.props /opt/nifi-toolkit/nifi-envs/registry-\${REGISTRY_ENV} && 
                     export BUCKET_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-buckets | grep -w \${BUCKET_NAME} | awk '{print \$3}'` &&
                     echo \${BUCKET_IDENTIFIER} && 
-                    export FLOW_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-flows --bucketIdentifier \${BUCKET_IDENTIFIER} | grep -w \${FLOW_NAME} | awk '{print \$3}'` &&
+                    export FLOW_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-flows --bucketIdentifier \${BUCKET_IDENTIFIER} -u http://localhost:18080 | grep -w \${FLOW_NAME} | awk '{print \$3}'` &&
                     echo \${FLOW_IDENTIFIER} &&
                     /opt/nifi-toolkit/bin/cli.sh session set nifi.props /opt/nifi-toolkit/nifi-envs/nifi-\${NIFI_TARGET_ENV} && 
                     export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-import --bucketIdentifier \${BUCKET_IDENTIFIER} --flowIdentifier \${FLOW_IDENTIFIER} --flowVersion \${FLOW_VERSION} | tail -n 1`
