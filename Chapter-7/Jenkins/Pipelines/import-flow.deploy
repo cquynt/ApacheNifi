@@ -14,7 +14,7 @@ pipeline {
             steps('Step 1'){
                 script {
                     sh("""
-                    /opt/nifi-toolkit/bin/cli.sh session set nifi.reg.props /opt/nifi-toolkit/nifi-envs/registry-\${REGISTRY_ENV} && 
+                    /opt/nifi-toolkit/bin/cli.sh session set nifi.reg.props /opt/nifi-toolkit/nifi-envs/registry-PRD && 
                     export BUCKET_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-buckets | grep -w \${BUCKET_NAME} | awk '{print \$3}'` &&
                     echo \${BUCKET_IDENTIFIER} && 
                     export FLOW_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-flows --bucketIdentifier \${BUCKET_IDENTIFIER} -u http://localhost:18080 | grep -w \${FLOW_NAME} | awk '{print \$3}'` &&
