@@ -25,7 +25,7 @@ pipeline {
                     
                     export PG_UPDATED_ID2=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_UPDATED_ID}`
                     
-                    #echo '####### PG Imported with Success\n'
+                    echo '####### PG Imported with Success\n'
                     
                     if [ \${FLOW_ENABLE} == "YES" ]
                     then
