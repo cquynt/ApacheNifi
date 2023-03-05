@@ -5,8 +5,8 @@ pipeline {
       choice(name: 'NIFI_TARGET_ENV', description: 'NiFi Target Enviroment', choices: 'DEV\nSTG\nPRD')
       string(name: 'BUCKET_NAME', description: 'Bucket Name to create: demo')
       string(name: 'FLOW_NAME', description: 'Flow Name(aaa)')
-      choice(name: 'FLOW_ENABLE', description: 'Enable Flow ?', choices: 'YES\nNO')
-      choice(name: 'FLOW_START', description: 'Start Flow ?', choices: 'YES\nNO')
+      choice(name: 'FLOW_ENABLE', description: 'Enable Flow ?', choices: 'NO\nYES')
+      choice(name: 'FLOW_START', description: 'Start Flow ?', choices: 'NO\nYES')
   }
   stages {
         stage('Run Registry'){
@@ -24,7 +24,7 @@ pipeline {
                     
                     export PG_IMPORTED_ID_2=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_IMPORTED_ID}`
                     
-                    echo '####### PG Imported with Success\n'
+                    echo '####### PG was updated with Success\n'
                     
                     if [ \${FLOW_ENABLE} == "YES" ]
                     then
