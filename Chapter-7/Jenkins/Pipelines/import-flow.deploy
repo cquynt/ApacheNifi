@@ -1,10 +1,7 @@
 pipeline {
   agent any
   parameters {
-      choice(name: 'REGISTRY_ENV', description: 'Registry Enviroment', choices: 'Registry-Product-18080')
-      choice(name: 'NIFI_TARGET_ENV', description: 'NiFi Target Enviroment', choices: 'DEV\nSTG\nPRD')
-      string(name: 'BUCKET_NAME', description: 'Bucket Name to create: demo')
-      string(name: 'FLOW_NAME', description: 'Flow Name(aaa)')
+      choice(name: 'NIFI_TARGET_ENV', description: 'NiFi Target Enviroment', choices: 'TEST-ENV\nQA-ENV')
       choice(name: 'FLOW_ENABLE', description: 'Enable Flow ?', choices: 'NO\nYES')
       choice(name: 'FLOW_START', description: 'Start Flow ?', choices: 'NO\nYES')
   }
@@ -13,18 +10,18 @@ pipeline {
             steps('Step 1'){
                 script {
                     sh("""
-                    /opt/nifi-toolkit/bin/cli.sh session set nifi.reg.props /opt/nifi-toolkit/nifi-envs/registry-PRD && 
-                    export BUCKET_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-buckets | grep -w \${BUCKET_NAME} | awk '{print \$3}'` &&
+                    /opt/nifi-toolkit/bin/cli.sh session set nifi.reg.props /opt/nifi-toolkit/nifi-envs/registry18080 && 
+                    export BUCKET_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-buckets | grep -w conuti | awk '{print \$3}'` &&
                     echo \${BUCKET_IDENTIFIER} && 
-                    export FLOW_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-flows --bucketIdentifier \${BUCKET_IDENTIFIER} -u http://localhost:18080 | grep -w \${FLOW_NAME} | awk '{print \$3}'` &&
+                    export FLOW_IDENTIFIER=`/opt/nifi-toolkit/bin/cli.sh registry list-flows --bucketIdentifier \${BUCKET_IDENTIFIER} -u http://172.17.0.4:18080 | grep -w ConutiFlowName | awk '{print \$3}'` &&
                     echo \${FLOW_IDENTIFIER} &&
                     /opt/nifi-toolkit/bin/cli.sh session set nifi.props /opt/nifi-toolkit/nifi-envs/nifi-\${NIFI_TARGET_ENV} &&
                     
-                    export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-list | grep -w \${FLOW_NAME} | awk '{print \$3}'`
+                    export PG_IMPORTED_ID=`/opt/nifi-toolkit/bin/cli.sh nifi pg-list | grep -w conuti | awk '{print \$3}'`
                     
                     export PG_IMPORTED_ID_2=`/opt/nifi-toolkit/bin/cli.sh nifi pg-change-version --processGroupId \${PG_IMPORTED_ID}`
                     
-                    echo '####### PG was updated with Success\n'
+                    echo '####### PG was imported with Success\n'
                     
                     if [ \${FLOW_ENABLE} == "YES" ]
                     then
